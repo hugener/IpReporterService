@@ -1,0 +1,13 @@
+{
+  "profiles": {
+    "IpReporter.Email": {
+      "commandName": "Project"
+    },
+    "Debug": {
+      "commandName": "Executable",
+      "executablePath": "C:\\Users\\kim\\Source\\Repos\\IpReporter\\Sources\\IpReporterService\\bin\\Debug\\netcoreapp2.1\\win7-x64\\IpReporterService.exe",
+      "commandLineArgs": "--console",
+      "workingDirectory": "C:\\Users\\kim\\Source\\Repos\\IpReporter\\Sources\\IpReporterService\\bin\\Debug\\netcoreapp2.1\\win7-x64\\"
+    }
+  }
+}

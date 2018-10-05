@@ -1,0 +1,11 @@
+﻿{
+  "Sender": "your@email.com",
+  "Recipent": "target@email.com",
+  "Port": 25,
+  "Host": "smtp.server.com",
+  "Credentials": {
+    "UserName": "email@username.com",
+    "Password": "password"
+  },
+  "EnableSsl": true
+}

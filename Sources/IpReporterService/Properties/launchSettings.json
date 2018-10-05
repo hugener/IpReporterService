@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "IpReporterService": {
+      "commandName": "Project",
+      "commandLineArgs": "--console"
+    }
+  }
+}
