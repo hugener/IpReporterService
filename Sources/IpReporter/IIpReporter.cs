@@ -5,12 +5,10 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System.Collections.Generic;
-
 namespace IpReporter
 {
     using System;
-    using System.Net;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
     using Sundew.Base.Initialization;
 

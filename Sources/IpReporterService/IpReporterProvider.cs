@@ -5,6 +5,8 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System.Runtime.Loader;
+
 namespace IpReporterService
 {
     using System;
@@ -47,6 +49,27 @@ namespace IpReporterService
             }
         }
 
+        public void Dispose()
+        {
+            this.fileSystemWatcher?.Dispose();
+        }
+
+        private static void RemoveIpReporters(IReadOnlyList<IIpReporter> ipReporters)
+        {
+            ipReporters.ForEach(x => x.Dispose());
+        }
+
+        private static IEnumerable<IIpReporter> CreateIpReporters(Assembly assembly)
+        {
+            foreach (var type in assembly.GetTypes())
+            {
+                if (!type.IsAbstract && typeof(IIpReporter).IsAssignableFrom(type) && !type.IsInterface)
+                {
+                    yield return (IIpReporter)Activator.CreateInstance(type);
+                }
+            }
+        }
+
         private void OnFileSystemWatcherChanged(object sender, FileSystemEventArgs e)
         {
             this.LoadIpReporters(e.FullPath);
@@ -83,13 +106,10 @@ namespace IpReporterService
                             await this.AddIpReporters(fileInfo);
                         }
                     }
+
+                    Directory.SetCurrentDirectory(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
                 }
             }
-        }
-
-        private static void RemoveIpReporters(IReadOnlyList<IIpReporter> ipReporters)
-        {
-            ipReporters.ForEach(x => x.Dispose());
         }
 
         private async Task AddIpReporters(FileInfo fileInfo)
@@ -109,22 +129,6 @@ namespace IpReporterService
         {
             RemoveIpReporters(ipReporters);
             await this.AddIpReporters(fileInfo);
-        }
-
-        private static IEnumerable<IIpReporter> CreateIpReporters(Assembly assembly)
-        {
-            foreach (var type in assembly.GetTypes())
-            {
-                if (!type.IsAbstract && typeof(IIpReporter).IsAssignableFrom(type) && !type.IsInterface)
-                {
-                    yield return (IIpReporter)Activator.CreateInstance(type);
-                }
-            }
-        }
-
-        public void Dispose()
-        {
-            this.fileSystemWatcher?.Dispose();
         }
     }
 }

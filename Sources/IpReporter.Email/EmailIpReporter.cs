@@ -16,8 +16,9 @@ namespace IpReporter.Email
 
     public class EmailIpReporter : IIpReporter
     {
-        public async Task InitializeAsync()
+        public Task InitializeAsync()
         {
+            return Task.CompletedTask;
         }
 
         public async Task ReportIpAsync(string hostName, IEnumerable<NetworkDeviceInfo> networkDeviceInfos)
