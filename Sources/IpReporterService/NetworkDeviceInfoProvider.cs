@@ -17,16 +17,12 @@ namespace IpReporterService
         {
             foreach (var networkInterface in NetworkInterface.GetAllNetworkInterfaces())
             {
-                if (networkInterface.NetworkInterfaceType == NetworkInterfaceType.Wireless80211 ||
-                    networkInterface.NetworkInterfaceType == NetworkInterfaceType.Ethernet)
+                var properties = networkInterface.GetIPProperties();
+                foreach (var ipAddressInformation in properties.UnicastAddresses)
                 {
-                    var properties = networkInterface.GetIPProperties();
-                    foreach (var ipAddressInformation in properties.UnicastAddresses)
+                    if (ipAddressInformation.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
                     {
-                        if (ipAddressInformation.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
-                        {
-                            yield return new NetworkDeviceInfo(networkInterface.Name, ipAddressInformation.Address);
-                        }
+                        yield return new NetworkDeviceInfo(networkInterface.Name, ipAddressInformation.Address);
                     }
                 }
             }
